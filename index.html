@@ -1,147 +1,96 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Borja & Almudena</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Borja & Almudena - Invitación Digital</title>
   <style>
-    body {
-      font-family: 'Georgia', serif;
-      background: linear-gradient(to bottom, #fff8f0, #f4f0e6);
-      color: #333;
-      margin: 0;
-      padding: 0;
-      text-align: center;
-      overflow-x: hidden;
-    }
-    .container {
-      max-width: 420px;
-      margin: auto;
-      padding: 30px 20px 50px;
-      background: rgba(255,255,255,0.95);
-      border-radius: 15px;
-      box-shadow: 0 8px 25px rgba(0,0,0,0.15);
-      position: relative;
-      overflow: hidden;
-    }
-    h1 {
-      font-size: 38px;
-      margin-bottom: 5px;
-      color: #b77e4c;
-    }
-    h2 {
-      font-size: 22px;
-      font-weight: normal;
-      margin-top: 0;
-      color: #444;
-    }
-    .divider {
-      width: 60px;
-      height: 2px;
-      background: #b77e4c;
-      margin: 20px auto;
-    }
-    .info {
-      margin: 15px 0;
-      font-size: 16px;
-    }
-    .phrase {
-      font-size: 16px;
-      font-style: italic;
-      color: #8b6a50;
-      margin: 15px 0;
-      animation: fadeIn 2s ease-in-out;
-    }
-    .countdown {
-      font-size: 18px;
-      margin: 20px 0;
-      font-weight: bold;
-      color: #b77e4c;
-      animation: flip 1s infinite;
-    }
-    .btn {
-      display: block;
-      margin: 12px auto;
-      padding: 14px;
-      width: 100%;
-      max-width: 320px;
-      background: #b77e4c;
-      color: white;
-      text-decoration: none;
-      border-radius: 8px;
-      font-size: 16px;
-      transition: 0.3s;
-    }
-    .btn:hover {
-      background: #a66d3b;
-    }
-    .btn.secondary {
-      background: #444;
-    }
-    .footer {
-      margin-top: 30px;
-      font-size: 14px;
-      color: #777;
-    }
-    /* Animación de pétalos */
-    .petal {
-      position: absolute;
-      width: 20px;
-      height: 20px;
-      background: #f6d1b0;
-      border-radius: 50%;
-      opacity: 0.7;
-      animation: fall linear infinite;
-    }
-    @keyframes fall {
-      0% { transform: translateY(-50px) rotate(0deg); }
-      100% { transform: translateY(600px) rotate(360deg); }
-    }
-    @keyframes fadeIn {
-      0% { opacity: 0; }
-      100% { opacity: 1; }
-    }
-    @keyframes flip {
-      0%,100% { transform: rotateX(0deg); }
-      50% { transform: rotateX(10deg); }
-    }
+    body {margin:0;padding:0;font-family:'Georgia', serif;background:linear-gradient(to bottom,#fff8f0,#f4f0e6);color:#333;overflow-x:hidden;text-align:center;}
+
+    /* Sobre animado */
+    .envelope-container{position:relative;width:300px;height:200px;margin:100px auto;perspective:1200px;}
+    .envelope{width:100%;height:100%;background:#b77e4c;border-radius:12px;transform-style:preserve-3d;transition:transform 1.5s ease;cursor:pointer;}
+    .envelope.open{transform:rotateX(180deg);}
+    .envelope-front,.envelope-back{position:absolute;width:100%;height:100%;backface-visibility:hidden;display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:bold;color:white;}
+    .envelope-back{background:#f8f0e6;color:#b77e4c;transform:rotateX(180deg);font-size:30px;}
+
+    /* Contenedor de invitación */
+    .container{max-width:480px;margin:30px auto;padding:40px 20px 60px;background:rgba(255,255,255,0.95);border-radius:20px;box-shadow:0 10px 35px rgba(0,0,0,0.2);position:relative;overflow:hidden;display:none;}
+    h1{font-size:42px;margin:0;color:#b77e4c;}
+    h2{font-size:24px;font-weight:normal;margin:5px 0 20px;color:#444;}
+    .divider{width:80px;height:3px;background:#b77e4c;margin:20px auto;}
+    .info{margin:15px 0;font-size:18px;}
+    .phrase{font-size:18px;font-style:italic;color:#8b6a50;margin:20px 0;animation:fadeIn 2s ease-in-out;}
+    .countdown{font-size:20px;margin:20px 0;font-weight:bold;color:#b77e4c;animation:flip 1s infinite;}
+
+    .btn{display:block;margin:15px auto;padding:16px;width:90%;max-width:320px;background:#b77e4c;color:white;text-decoration:none;border-radius:10px;font-size:18px;transition:0.3s;}
+    .btn:hover{background:#a66d3b;}
+    .btn.secondary{background:#444;}
+
+    .footer{margin-top:30px;font-size:16px;color:#777;}
+
+    /* Pétalos animados */
+    .petal{position:absolute;width:20px;height:20px;background:#f6d1b0;border-radius:50%;opacity:0.7;animation:fall linear infinite;}
+    @keyframes fall{0%{transform:translateY(-50px) rotate(0deg);}100%{transform:translateY(650px) rotate(360deg);}}
+
+    @keyframes fadeIn{0%{opacity:0;}100%{opacity:1;}}
+    @keyframes flip{0%,100%{transform:rotateX(0deg);}50%{transform:rotateX(10deg);}}
+
+    /* Destellos dorados */
+    .sparkle{position:absolute;width:4px;height:4px;background:gold;border-radius:50%;opacity:0.8;animation:sparkleMove linear infinite;}
+    @keyframes sparkleMove{0%{transform:translate(0,0);opacity:0.8;}50%{opacity:0.3;}100%{transform:translate(500px,500px);opacity:0;}}
+
+    /* Mensaje de confirmación */
+    .confirm-msg{position:fixed;top:30%;left:50%;transform:translate(-50%,-50%);background:#b77e4c;color:white;padding:20px 30px;border-radius:15px;font-size:22px;opacity:0;transition:0.6s;z-index:9999;display:flex;align-items:center;gap:12px;}
+    .confirm-msg.show{opacity:1;animation:bounce 0.6s;}
+    @keyframes bounce{0%{transform:translate(-50%,-50%) scale(0.5);}50%{transform:translate(-50%,-50%) scale(1.1);}100%{transform:translate(-50%,-50%) scale(1);}}
+
+    /* QR */
+    .qr-container{margin-top:25px;}
+    .qr-container img{width:200px;height:200px;border-radius:15px;box-shadow:0 5px 15px rgba(0,0,0,0.3);}
   </style>
 </head>
 <body>
-  <div class="container">
-    <h1>Borja & Almudena</h1>
-    <h2>Nos casamos</h2>
 
-    <div class="divider"></div>
-
-    <div class="info">📅 26 de septiembre de 2026</div>
-    <div class="info">⏰ 16:30 h</div>
-    <div class="info">⛪ Iglesia de Santiago Apóstol · Gáldar</div>
-
-    <div class="phrase">“El amor verdadero no tiene final, solo comienza cada día.” 💕</div>
-
-    <div class="countdown" id="countdown">Cargando cuenta atrás…</div>
-
-    <a class="btn" href="https://wa.me/34647439458?text=Hola%2C%20soy%20___%20y%20confirmo%20mi%20asistencia%20a%20la%20boda%20de%20Borja%20y%20Almudena%20el%2026%20de%20septiembre%20de%202026.%20%F0%9F%92%8D%E2%9C%A8" target="_blank">
-      💬 Confirmar asistencia
-    </a>
-
-    <a class="btn secondary" href="https://maps.app.goo.gl/AYxHBnSAveRQR9Aj8" target="_blank">
-      📍 Ver ubicación · Iglesia
-    </a>
-
-    <a class="btn secondary" href="#" onclick="alert('Aquí iría el link de Google Maps de la Finca Cercado Canario')">
-      🎉 Ver ubicación · Celebración
-    </a>
-
-    <div class="footer">
-      Tu presencia será nuestro mejor regalo 🤍
+  <div class="envelope-container">
+    <div class="envelope" id="envelope">
+      <div class="envelope-front">💌</div>
+      <div class="envelope-back">Borja & Almudena</div>
     </div>
   </div>
 
-  <!-- Pétalos animados -->
+  <div class="container" id="invitation">
+    <h1>Borja & Almudena</h1>
+    <h2>Nos casamos</h2>
+    <div class="divider"></div>
+    <div class="info">📅 26 de septiembre de 2026</div>
+    <div class="info">⏰ 16:30 h</div>
+    <div class="info">⛪ Iglesia de Santiago Apóstol · Gáldar</div>
+    <div class="phrase">“El amor verdadero no tiene final, solo comienza cada día.” 💕</div>
+    <div class="countdown" id="countdown">Cargando cuenta atrás…</div>
+
+    <a class="btn" id="confirmBtn" href="https://wa.me/34647439458?text=Hola,%20soy%20[Nombre]%20y%20confirmo%20mi%20asistencia%20a%20la%20boda%20de%20Borja%20y%20Almudena%20el%2026%20de%20septiembre%20de%202026.💍" target="_blank">💬 Confirmar asistencia</a>
+
+    <a class="btn secondary" href="https://wa.me/34647439458?text=Hola,%20soy%20[Nombre]%20y%20lamentablemente%20no%20podré%20asistir%20a%20la%20boda%20de%20Borja%20y%20Almudena.%F0%9F%92%94" target="_blank">❌ No puedo asistir</a>
+
+    <a class="btn secondary" href="https://www.google.com/maps/search/?api=1&query=Iglesia+Santiago+Ap%C3%B3stol+G%C3%A1ldar" target="_blank">📍 Ver ubicación · Iglesia</a>
+
+    <a class="btn secondary" href="https://www.google.com/maps/search/?api=1&query=Hinojal+18A+35400+Arucas+Las+Palmas" target="_blank">🎉 Ver ubicación · Celebración</a>
+
+    <div class="footer">Tu presencia será nuestro mejor regalo 🤍</div>
+
+    <div class="qr-container">
+      <h2>📱 Escanea y guarda tu invitación</h2>
+      <img src="https://chart.googleapis.com/chart?cht=qr&chs=200x200&chl=https://TUUSUARIO.github.io/invitacion-boda-borja-almudena/&choe=UTF-8" alt="QR Invitación Borja & Almudena">
+      <p>Escanea este código QR para acceder a la invitación digital en cualquier momento 💕</p>
+    </div>
+  </div>
+
+  <div class="confirm-msg" id="confirmMsg">😊 ¡Nos vemos el día de la boda! 💕</div>
+
   <script>
-    for(let i=0;i<20;i++){
+    // Pétalos
+    for(let i=0;i<25;i++){
       const petal=document.createElement('div');
       petal.className='petal';
       petal.style.left=Math.random()*100+'%';
@@ -149,30 +98,53 @@
       petal.style.animationDelay=Math.random()*5+'s';
       document.body.appendChild(petal);
     }
-  </script>
-
-  <script>
-    const countdownEl = document.getElementById('countdown');
-    const weddingDate = new Date('2026-09-26T16:30:00').getTime();
-
-    function updateCountdown() {
-      const now = new Date().getTime();
-      const diff = weddingDate - now;
-
-      if (diff <= 0) {
-        countdownEl.innerHTML = '¡Hoy es el gran día! 💍';
-        return;
-      }
-
-      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-      const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-      const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-
-      countdownEl.innerHTML = `⏳ Faltan ${days} días · ${hours} h · ${minutes} min`;
+    // Destellos dorados
+    for(let i=0;i<30;i++){
+      const sparkle=document.createElement('div');
+      sparkle.className='sparkle';
+      sparkle.style.left=Math.random()*100+'%';
+      sparkle.style.top=Math.random()*100+'%';
+      sparkle.style.animationDuration=2+Math.random()*3+'s';
+      sparkle.style.animationDelay=Math.random()*5+'s';
+      document.body.appendChild(sparkle);
     }
 
+    // Sobre animado
+    const envelope=document.getElementById('envelope');
+    const invitation=document.getElementById('invitation');
+    envelope.addEventListener('click',()=>{
+      envelope.classList.add('open');
+      setTimeout(()=>{
+        envelope.style.display='none';
+        invitation.style.display='block';
+        const audio=new Audio('https://www.soundjay.com/misc/sounds/bell-ringing-05.mp3');
+        audio.play();
+      },1500);
+    });
+
+    // Cuenta atrás
+    const countdownEl=document.getElementById('countdown');
+    const weddingDate=new Date('2026-09-26T16:30:00').getTime();
+    function updateCountdown(){
+      const now=new Date().getTime();
+      const diff=weddingDate-now;
+      if(diff<=0){countdownEl.innerHTML='¡Hoy es el gran día! 💍';return;}
+      const days=Math.floor(diff/(1000*60*60*24));
+      const hours=Math.floor((diff%(1000*60*60*24))/(1000*60*60));
+      const minutes=Math.floor((diff%(1000*60*60))/(1000*60));
+      const seconds=Math.floor((diff%(1000*60))/1000);
+      countdownEl.innerHTML=`⏳ Faltan ${days} días · ${hours} h · ${minutes} min · ${seconds} s`;
+    }
     updateCountdown();
-    setInterval(updateCountdown, 60000);
+    setInterval(updateCountdown,1000);
+
+    // Efecto mensaje al confirmar
+    const confirmBtn=document.getElementById('confirmBtn');
+    const confirmMsg=document.getElementById('confirmMsg');
+    confirmBtn.addEventListener('click',()=>{
+      confirmMsg.classList.add('show');
+      setTimeout(()=>{confirmMsg.classList.remove('show');},4000);
+    });
   </script>
 </body>
 </html>
