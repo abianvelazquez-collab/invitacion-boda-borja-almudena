@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Borja & Almudena</title>
+  <style>
+    body {
+      font-family: 'Georgia', serif;
+      background: linear-gradient(to bottom, #fff8f0, #f4f0e6);
+      color: #333;
+      margin: 0;
+      padding: 0;
+      text-align: center;
+      overflow-x: hidden;
+    }
+    .container {
+      max-width: 420px;
+      margin: auto;
+      padding: 30px 20px 50px;
+      background: rgba(255,255,255,0.95);
+      border-radius: 15px;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+      position: relative;
+      overflow: hidden;
+    }
+    h1 {
+      font-size: 38px;
+      margin-bottom: 5px;
+      color: #b77e4c;
+    }
+    h2 {
+      font-size: 22px;
+      font-weight: normal;
+      margin-top: 0;
+      color: #444;
+    }
+    .divider {
+      width: 60px;
+      height: 2px;
+      background: #b77e4c;
+      margin: 20px auto;
+    }
+    .info {
+      margin: 15px 0;
+      font-size: 16px;
+    }
+    .phrase {
+      font-size: 16px;
+      font-style: italic;
+      color: #8b6a50;
+      margin: 15px 0;
+      animation: fadeIn 2s ease-in-out;
+    }
+    .countdown {
+      font-size: 18px;
+      margin: 20px 0;
+      font-weight: bold;
+      color: #b77e4c;
+      animation: flip 1s infinite;
+    }
+    .btn {
+      display: block;
+      margin: 12px auto;
+      padding: 14px;
+      width: 100%;
+      max-width: 320px;
+      background: #b77e4c;
+      color: white;
+      text-decoration: none;
+      border-radius: 8px;
+      font-size: 16px;
+      transition: 0.3s;
+    }
+    .btn:hover {
+      background: #a66d3b;
+    }
+    .btn.secondary {
+      background: #444;
+    }
+    .footer {
+      margin-top: 30px;
+      font-size: 14px;
+      color: #777;
+    }
+    /* Animación de pétalos */
+    .petal {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background: #f6d1b0;
+      border-radius: 50%;
+      opacity: 0.7;
+      animation: fall linear infinite;
+    }
+    @keyframes fall {
+      0% { transform: translateY(-50px) rotate(0deg); }
+      100% { transform: translateY(600px) rotate(360deg); }
+    }
+    @keyframes fadeIn {
+      0% { opacity: 0; }
+      100% { opacity: 1; }
+    }
+    @keyframes flip {
+      0%,100% { transform: rotateX(0deg); }
+      50% { transform: rotateX(10deg); }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Borja & Almudena</h1>
+    <h2>Nos casamos</h2>
+
+    <div class="divider"></div>
+
+    <div class="info">📅 26 de septiembre de 2026</div>
+    <div class="info">⏰ 16:30 h</div>
+    <div class="info">⛪ Iglesia de Santiago Apóstol · Gáldar</div>
+
+    <div class="phrase">“El amor verdadero no tiene final, solo comienza cada día.” 💕</div>
+
+    <div class="countdown" id="countdown">Cargando cuenta atrás…</div>
+
+    <a class="btn" href="https://wa.me/34647439458?text=Hola%2C%20soy%20___%20y%20confirmo%20mi%20asistencia%20a%20la%20boda%20de%20Borja%20y%20Almudena%20el%2026%20de%20septiembre%20de%202026.%20%F0%9F%92%8D%E2%9C%A8" target="_blank">
+      💬 Confirmar asistencia
+    </a>
+
+    <a class="btn secondary" href="https://maps.app.goo.gl/AYxHBnSAveRQR9Aj8" target="_blank">
+      📍 Ver ubicación · Iglesia
+    </a>
+
+    <a class="btn secondary" href="#" onclick="alert('Aquí iría el link de Google Maps de la Finca Cercado Canario')">
+      🎉 Ver ubicación · Celebración
+    </a>
+
+    <div class="footer">
+      Tu presencia será nuestro mejor regalo 🤍
+    </div>
+  </div>
+
+  <!-- Pétalos animados -->
+  <script>
+    for(let i=0;i<20;i++){
+      const petal=document.createElement('div');
+      petal.className='petal';
+      petal.style.left=Math.random()*100+'%';
+      petal.style.animationDuration=4+Math.random()*6+'s';
+      petal.style.animationDelay=Math.random()*5+'s';
+      document.body.appendChild(petal);
+    }
+  </script>
+
+  <script>
+    const countdownEl = document.getElementById('countdown');
+    const weddingDate = new Date('2026-09-26T16:30:00').getTime();
+
+    function updateCountdown() {
+      const now = new Date().getTime();
+      const diff = weddingDate - now;
+
+      if (diff <= 0) {
+        countdownEl.innerHTML = '¡Hoy es el gran día! 💍';
+        return;
+      }
+
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+
+      countdownEl.innerHTML = `⏳ Faltan ${days} días · ${hours} h · ${minutes} min`;
+    }
+
+    updateCountdown();
+    setInterval(updateCountdown, 60000);
+  </script>
+</body>
+</html>
