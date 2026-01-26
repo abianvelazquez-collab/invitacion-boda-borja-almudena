@@ -1,218 +1,789 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Borja & Almudena</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Borja & Almudena</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@300;400;500;600&family=Bodoni+Moda:wght@400;500&family=Montserrat:wght@200;300;400&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-<style>
-html, body {
-  margin: 0;
-  padding: 0;
-  height: 100%;
-  overflow: hidden;
-  font-family: "Georgia", serif;
-  background: black;
-}
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
 
-/* Vídeo de fondo */
-video {
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  z-index: -2;
-}
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: 
+                radial-gradient(ellipse at 15% 20%, rgba(255, 248, 235, 0.6) 0%, transparent 40%),
+                radial-gradient(ellipse at 85% 80%, rgba(245, 230, 210, 0.5) 0%, transparent 40%),
+                radial-gradient(circle at 50% 50%, rgba(255, 250, 240, 0.3) 0%, transparent 50%),
+                linear-gradient(135deg, #fffef9 0%, #faf5ed 25%, #f9f3ea 50%, #faf6f0 75%, #fffcf7 100%);
+            background-size: 200% 200%;
+            animation: gradientShift 20s ease infinite;
+            overflow-x: hidden;
+            color: #5a4d42;
+            min-height: 100vh;
+            position: relative;
+        }
 
-/* Overlay cinematográfico */
-.overlay {
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  background: radial-gradient(circle, rgba(0,0,0,0.25), rgba(0,0,0,0.6));
-  z-index: -1;
-}
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(255, 255, 255, 0.04) 3px, rgba(255, 255, 255, 0.04) 6px),
+                repeating-linear-gradient(90deg, transparent, transparent 3px, rgba(255, 255, 255, 0.04) 3px, rgba(255, 255, 255, 0.04) 6px);
+            pointer-events: none;
+            opacity: 0.5;
+            z-index: 1;
+        }
 
-/* Contenido principal */
-.contenido {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  color: #f5f0e8;
-  text-align: center;
-  letter-spacing: 0.05em;
-  opacity: 0;
-  transition: opacity 1s ease;
-}
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(circle at 25% 35%, rgba(212, 175, 55, 0.03) 0%, transparent 25%),
+                radial-gradient(circle at 75% 65%, rgba(212, 175, 55, 0.03) 0%, transparent 25%),
+                radial-gradient(circle at 50% 20%, rgba(255, 250, 245, 0.4) 0%, transparent 30%),
+                radial-gradient(circle at 30% 80%, rgba(250, 240, 230, 0.3) 0%, transparent 30%),
+                radial-gradient(ellipse at 80% 40%, rgba(255, 245, 235, 0.35) 0%, transparent 35%);
+            pointer-events: none;
+            z-index: 1;
+            opacity: 0;
+            animation: fadeInBackground 4s ease-in 2s forwards;
+        }
 
-h1 {
-  font-size: 2.7em;
-}
+        @keyframes fadeInBackground {
+            to { opacity: 1; }
+        }
 
-.subtitulo {
-  font-size: 1.3em;
-  margin-top: 20px;
-}
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 2;
+            opacity: 0;
+            animation: fadeInParticles 5s ease-in 5s forwards;
+        }
 
-.frase {
-  position: absolute;
-  bottom: 30%;
-  font-size: 1.1em;
-  font-style: italic;
-}
+        @keyframes fadeInParticles {
+            to { opacity: 1; }
+        }
 
-/* Frase extra antes de botones */
-.frase-extra {
-  position: absolute;
-  bottom: 7%;
-  font-size: 1em;
-  font-style: italic;
-  color: #f5f0e8;
-  text-align: center;
-  opacity: 0;
-}
+        .particle {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0;
+        }
 
-/* Timón */
-.timon {
-  position: absolute;
-  bottom: 10%;
-  width: 80px;
-  opacity: 0.7;
-}
+        .particle.gold-dust {
+            width: 3px;
+            height: 3px;
+            background: radial-gradient(circle, rgba(255, 235, 180, 0.8) 0%, rgba(212, 175, 55, 0.4) 60%, transparent 80%);
+            filter: blur(0.5px);
+            animation: floatGoldDust 22s infinite ease-in-out;
+            box-shadow: 0 0 6px rgba(255, 235, 180, 0.6);
+        }
 
-/* Anillos entrelazados con brillo */
-.anillo {
-  position: absolute;
-  bottom: 15%;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 120px;
-  opacity: 0;
-  filter: drop-shadow(0 0 8px gold);
-}
+        .particle.shimmer {
+            width: 2px;
+            height: 2px;
+            background: white;
+            animation: floatShimmer 18s infinite ease-in-out;
+            box-shadow: 
+                0 0 4px rgba(255, 255, 255, 0.8),
+                0 0 8px rgba(212, 175, 55, 0.4);
+        }
 
-/* Animaciones */
-@keyframes girar {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
+        .particle.petal {
+            width: 8px;
+            height: 8px;
+            background: radial-gradient(ellipse, rgba(255, 250, 245, 0.6) 0%, rgba(250, 235, 220, 0.3) 60%, transparent 80%);
+            border-radius: 50% 0 50% 0;
+            filter: blur(1px);
+            animation: floatPetal 28s infinite ease-in-out;
+        }
 
-@keyframes aparecerAnillos {
-  from { opacity: 0; transform: translateX(-50%) translateY(50px); filter: drop-shadow(0 0 8px gold);}
-  to { opacity: 1; transform: translateX(-50%) translateY(0); filter: drop-shadow(0 0 20px gold);}
-}
+        .particle.sparkle {
+            width: 4px;
+            height: 4px;
+            background: radial-gradient(circle, rgba(255, 255, 255, 1) 0%, rgba(212, 175, 55, 0.6) 40%, transparent 70%);
+            animation: floatSparkle 16s infinite ease-in-out, twinkle 3s infinite ease-in-out;
+            box-shadow: 0 0 12px rgba(255, 235, 180, 0.8);
+        }
 
-@keyframes brillo {
-  0%, 100% { filter: drop-shadow(0 0 8px gold); }
-  50% { filter: drop-shadow(0 0 20px gold); }
-}
+        @keyframes floatGoldDust {
+            0% { transform: translate(0, 100vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.7; }
+            90% { opacity: 0.7; }
+            100% { transform: translate(50px, -200px) rotate(360deg); opacity: 0; }
+        }
 
-@keyframes rebote {
-  0% { transform: translateY(30px); opacity: 0; }
-  60% { transform: translateY(-10px); opacity: 1; }
-  80% { transform: translateY(5px); }
-  100% { transform: translateY(0); }
-}
+        @keyframes floatShimmer {
+            0% { transform: translate(0, 100vh) scale(0.5); opacity: 0; }
+            12% { opacity: 1; }
+            88% { opacity: 1; }
+            100% { transform: translate(-40px, -200px) scale(1.5); opacity: 0; }
+        }
 
-/* Botones WhatsApp */
-.whatsapp-btn {
-  position: absolute;
-  bottom: 3%;
-  padding: 12px 25px;
-  font-size: 1em;
-  color: white;
-  background-color: #25D366;
-  border-radius: 30px;
-  text-decoration: none;
-  display: inline-flex;
-  align-items: center;
-  opacity: 0;
-}
+        @keyframes floatPetal {
+            0% { transform: translate(0, 100vh) rotate(0deg); opacity: 0; }
+            8% { opacity: 0.5; }
+            92% { opacity: 0.5; }
+            100% { transform: translate(30px, -200px) rotate(180deg); opacity: 0; }
+        }
 
-.whatsapp-btn.almudena {
-  bottom: 0.5%;
-}
-</style>
-</head>
+        @keyframes floatSparkle {
+            0% { transform: translate(0, 100vh) rotate(0deg); opacity: 0; }
+            15% { opacity: 0.9; }
+            85% { opacity: 0.9; }
+            100% { transform: translate(-30px, -200px) rotate(720deg); opacity: 0; }
+        }
 
-<body>
+        @keyframes twinkle {
+            0%, 100% { filter: brightness(1); }
+            50% { filter: brightness(1.5); }
+        }
 
-<!-- Vídeo de fondo -->
-<video autoplay loop muted playsinline>
-  <source src="fondo.mp4" type="video/mp4">
-</video>
-<div class="overlay"></div>
+        .envelope-wrapper {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: 
+                radial-gradient(circle at 50% 50%, rgba(255, 252, 247, 0.9) 0%, rgba(250, 246, 240, 1) 100%);
+            z-index: 1000;
+            opacity: 1;
+            transition: opacity 2.5s ease 0.8s;
+        }
 
-<!-- Contenido principal -->
-<div class="contenido" id="contenido">
-  <h1>Borja & Almudena</h1>
-  <div class="subtitulo">Te invitamos a nuestra boda</div>
-  <div class="frase">“Y sin saber cómo, supimos que era para siempre.”</div>
-</div>
+        .envelope-wrapper.fade-out {
+            opacity: 0;
+            pointer-events: none;
+        }
 
-<!-- Frase extra antes de botones -->
-<div class="frase-extra" id="fraseExtra">
-  Te invitamos a compartir este maravilloso día 💕
-</div>
+        .envelope {
+            position: relative;
+            width: 340px;
+            height: 240px;
+            perspective: 1400px;
+            filter: drop-shadow(0 25px 80px rgba(90, 77, 66, 0.15));
+        }
 
-<!-- Timón -->
-<img src="timon.png" class="timon" id="timon">
+        .envelope-seal {
+            position: absolute;
+            top: 45px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50px;
+            height: 50px;
+            background: radial-gradient(circle, #d4af37 0%, #c9a557 100%);
+            border-radius: 50%;
+            z-index: 10;
+            opacity: 0;
+            animation: sealAppear 1.5s ease-out 0.5s forwards;
+            box-shadow: 
+                0 4px 15px rgba(212, 175, 55, 0.4),
+                inset 0 2px 8px rgba(255, 255, 255, 0.3);
+        }
 
-<!-- Anillos entrelazados -->
-<img src="anillos.png" class="anillo" id="anillos">
+        .envelope-seal::after {
+            content: '♥';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 24px;
+        }
 
-<!-- Fecha y lugares con Google Maps -->
-<div class="detalles" id="detalles">
-  <span>21 de septiembre de 2026</span><br>
-  <span><a href="https://www.google.com/maps/place/Parroquia+de+Santiago+Ap%C3%B3stol+de+G%C3%A1ldar/@28.1449848,-15.6570617,17z/data=!3m1!4b1!4m6!3m5!1s0xc40930068a976d3:0x286cbf069e39e863!8m2!3d28.1449848!4d-15.655872!16s%2Fg%2F11c59w8p8p" target="_blank">Ceremonia: Iglesia Santiago Apóstol, Gáldar</a></span><br>
-  <span><a href="https://www.google.com/maps/search/?api=1&query=Cercado+Canario,+Carretera+a+Trasmontaña+18A,+35400+Arucas,+Las+Palmas,+Spain" target="_blank">Celebración: Cercado Canario, Arucas</a></span>
-</div>
+        @keyframes sealAppear {
+            from { opacity: 0; transform: translateX(-50%) scale(0); }
+            to { opacity: 1; transform: translateX(-50%) scale(1); }
+        }
 
-<!-- Botones WhatsApp -->
-<a class="whatsapp-btn" href="https://wa.me/34647439458?text=¡Hola!%20Confirmo%20mi%20asistencia%20a%20la%20boda%20de%20Borja%20y%20Almudena." target="_blank" id="btnBorja">
-  ✅ Confirmar asistencia a Borja
-</a>
+        .envelope-back {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 170px;
+            background: 
+                linear-gradient(to bottom, #f9f4e9 0%, #f2ebe0 50%, #ece3d5 100%);
+            border: 2px solid rgba(212, 175, 55, 0.3);
+            border-radius: 4px;
+            box-shadow: 
+                inset 0 2px 0 rgba(255, 255, 255, 0.6),
+                inset 0 -2px 8px rgba(90, 77, 66, 0.05),
+                0 12px 60px rgba(90, 77, 66, 0.18);
+        }
 
-<a class="whatsapp-btn almudena" href="https://wa.me/34663205677?text=¡Hola!%20Confirmo%20mi%20asistencia%20a%20la%20boda%20de%20Borja%20y%20Almudena." target="_blank" id="btnAlmudena">
-  ✅ Confirmar asistencia a Almudena
-</a>
+        .envelope-flap {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 0;
+            border-left: 170px solid transparent;
+            border-right: 170px solid transparent;
+            border-top: 115px solid #ece3d5;
+            transform-origin: top center;
+            transform-style: preserve-3d;
+            animation: openEnvelope 3s cubic-bezier(0.4, 0, 0.2, 1) 1.2s forwards;
+            filter: drop-shadow(0 3px 20px rgba(90, 77, 66, 0.2));
+        }
 
-<script>
-window.addEventListener('DOMContentLoaded', () => {
-  const contenido = document.getElementById('contenido');
-  const timon = document.getElementById('timon');
-  const anillos = document.getElementById('anillos');
-  const fraseExtra = document.getElementById('fraseExtra');
-  const btnBorja = document.getElementById('btnBorja');
-  const btnAlmudena = document.getElementById('btnAlmudena');
+        .envelope-flap::before {
+            content: '';
+            position: absolute;
+            top: -115px;
+            left: -170px;
+            width: 0;
+            height: 0;
+            border-left: 170px solid transparent;
+            border-right: 170px solid transparent;
+            border-top: 115px solid rgba(212, 175, 55, 0.1);
+        }
 
-  // Simular "abrir el sobre" después de 1.5s
-  setTimeout(() => {
-    // Mostrar contenido
-    contenido.style.opacity = 1;
+        @keyframes openEnvelope {
+            to { transform: rotateX(-185deg); }
+        }
 
-    // Timón comienza a girar
-    timon.style.animation = 'girar 14s linear infinite';
-    timon.style.opacity = 0.7;
+        .envelope-letter {
+            position: absolute;
+            top: 50px;
+            left: 40px;
+            width: 260px;
+            height: 200px;
+            background: 
+                linear-gradient(135deg, #ffffff 0%, #fffefb 100%);
+            box-shadow: 
+                0 20px 80px rgba(90, 77, 66, 0.25),
+                inset 0 2px 0 rgba(255, 255, 255, 0.9),
+                inset 0 -1px 3px rgba(212, 175, 55, 0.1);
+            border: 1.5px solid rgba(212, 175, 55, 0.15);
+            border-radius: 3px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            animation: revealLetter 2.5s ease-out 3s forwards;
+        }
 
-    // Anillos aparecen con brillo
-    anillos.style.animation = 'aparecerAnillos 3.5s ease forwards, brillo 2s ease-in-out infinite';
+        @keyframes revealLetter {
+            0% { transform: translateY(0); opacity: 0; }
+            100% { transform: translateY(-145px); opacity: 1; }
+        }
 
-    // Frase extra
-    fraseExtra.style.animation = 'aparecerAnillos 1s ease forwards 0.2s';
-    fraseExtra.style.opacity = 1;
+        .letter-monogram {
+            font-family: 'Bodoni Moda', serif;
+            font-size: 42px;
+            background: linear-gradient(135deg, #d4af37 0%, #e8c55f 50%, #d4af37 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: 6px;
+            text-shadow: 0 3px 15px rgba(212, 175, 55, 0.2);
+            margin-bottom: 8px;
+        }
 
-    // Botones WhatsApp con rebote
-    btnBorja.style.animation = 'rebote 1s forwards';
-    btnAlmudena.style.animation = 'rebote 1s forwards 0.5s';
-    btnBorja.style.opacity = 1;
-    btnAlmudena.style.opacity = 1;
+        .letter-ornament {
+            width: 60px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent 0%, #d4af37 50%, transparent 100%);
+            margin: 10px 0;
+        }
 
-  }, 1500);
-});
-</script>
+        .main-content {
+            opacity: 0;
+            position: relative;
+            z-index: 3;
+            max-width: 750px;
+            margin: 0 auto;
+            padding: 120px 40px 140px;
+            animation: appearContent 3s ease-out 5.5s forwards;
+        }
 
-</body>
-</html>
+        @keyframes appearContent {
+            to { opacity: 1; }
+        }
+
+        .decorative-header {
+            text-align: center;
+            margin-bottom: 80px;
+            opacity: 0;
+            animation: fadeInDown 2.5s ease-out 6s forwards;
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .ornament-top {
+            width: 100px;
+            height: 100px;
+            margin: 0 auto 30px;
+            position: relative;
+        }
+
+        .ornament-top svg {
+            width: 100%;
+            height: 100%;
+            fill: none;
+            stroke: #d4af37;
+            stroke-width: 1.5;
+            filter: drop-shadow(0 3px 12px rgba(212, 175, 55, 0.3));
+            animation: rotateOrnament 20s linear infinite;
+        }
+
+        @keyframes rotateOrnament {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .invitation-title {
+            font-family: 'Montserrat', sans-serif;
+            font-size: clamp(11px, 2.5vw, 13px);
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: #9a8b7d;
+            font-weight: 300;
+            margin-bottom: 20px;
+        }
+
+        .divider {
+            width: 80px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent 0%, #d4af37 50%, transparent 100%);
+            margin: 25px auto;
+        }
+
+        .names-section {
+            text-align: center;
+            margin-bottom: 90px;
+            opacity: 0;
+            animation: fadeInUp 2.5s ease-out 7s forwards;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .names {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(50px, 13vw, 82px);
+            font-weight: 300;
+            line-height: 1.3;
+            background: linear-gradient(135deg, #5a4d42 0%, #6b5d50 50%, #5a4d42 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: 3px;
+            margin-bottom: 35px;
+            text-shadow: 0 5px 25px rgba(90, 77, 66, 0.15);
+        }
+
+        .ampersand {
+            display: block;
+            font-family: 'Bodoni Moda', serif;
+            font-style: italic;
+            font-size: 0.75em;
+            background: linear-gradient(135deg, #d4af37 0%, #e8c55f 50%, #d4af37 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin: 25px 0;
+            filter: drop-shadow(0 3px 12px rgba(212, 175, 55, 0.25));
+        }
+
+        .wedding-date-accent {
+            font-family: 'Montserrat', sans-serif;
+            font-size: clamp(12px, 2.8vw, 14px);
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: #a89b8d;
+            font-weight: 300;
+            margin-top: 30px;
+        }
+
+        .poetry-section {
+            margin: 90px 0;
+            text-align: center;
+        }
+
+        .verse {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(22px, 5vw, 30px);
+            font-weight: 300;
+            line-height: 2.1;
+            color: #7a6b5d;
+            margin-bottom: 65px;
+            opacity: 0;
+            font-style: italic;
+            text-shadow: 0 3px 20px rgba(0, 0, 0, 0.04);
+            position: relative;
+            padding: 0 20px;
+        }
+
+        .verse::before,
+        .verse::after {
+            content: '"';
+            font-size: 1.8em;
+            color: rgba(212, 175, 55, 0.3);
+            position: absolute;
+            font-family: 'Bodoni Moda', serif;
+        }
+
+        .verse::before {
+            top: -20px;
+            left: 0;
+        }
+
+        .verse::after {
+            bottom: -40px;
+            right: 0;
+        }
+
+        .verse:nth-of-type(1) { animation: fadeInUp 2.5s ease-out 8.5s forwards; }
+        .verse:nth-of-type(2) { animation: fadeInUp 2.5s ease-out 10.5s forwards; }
+        .verse:nth-of-type(3) { animation: fadeInUp 2.5s ease-out 12.5s forwards; }
+
+        .rings-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 100px 0;
+            opacity: 0;
+            animation: fadeInScale 2.8s ease-out 14.5s forwards;
+        }
+
+        @keyframes fadeInScale {
+            from { opacity: 0; transform: scale(0.5) rotate(-15deg); }
+            to { opacity: 1; transform: scale(1) rotate(0deg); }
+        }
+
+        .rings {
+            position: relative;
+            width: 160px;
+            height: 80px;
+            filter: drop-shadow(0 8px 30px rgba(212, 175, 55, 0.2));
+        }
+
+        .ring {
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            border: 4px solid #d4af37;
+            background: transparent;
+            box-shadow: 
+                0 0 20px rgba(212, 175, 55, 0.3),
+                inset 0 0 15px rgba(212, 175, 55, 0.1);
+        }
+
+        .ring::before {
+            content: '';
+            position: absolute;
+            inset: -2px;
+            border-radius: 50%;
+            border: 1px solid rgba(255, 235, 180, 0.5);
+            animation: pulseRing 4s ease-in-out infinite;
+        }
+
+        @keyframes pulseRing {
+            0%, 100% { 
+                transform: scale(1); 
+                opacity: 0.6;
+                box-shadow: 0 0 15px rgba(212, 175, 55, 0.2);
+            }
+            50% { 
+                transform: scale(1.08); 
+                opacity: 0.9;
+                box-shadow: 0 0 25px rgba(212, 175, 55, 0.4);
+            }
+        }
+
+        .ring::after {
+            content: '';
+            position: absolute;
+            top: 15%;
+            left: 25%;
+            width: 25%;
+            height: 15%;
+            background: radial-gradient(ellipse, rgba(255, 255, 255, 0.6) 0%, transparent 70%);
+            border-radius: 50%;
+            filter: blur(2px);
+        }
+
+        .ring:first-child {
+            left: 0;
+            z-index: 2;
+        }
+
+        .ring:last-child {
+            right: 0;
+            z-index: 1;
+        }
+
+        .event-card {
+            background: 
+                linear-gradient(135deg, rgba(255, 255, 255, 0.85) 0%, rgba(255, 255, 255, 0.6) 100%);
+            backdrop-filter: blur(40px);
+            border: 2px solid rgba(212, 175, 55, 0.25);
+            border-radius: 16px;
+            padding: 65px 45px;
+            margin: 80px 0;
+            opacity: 0;
+            animation: fadeInUp 2.5s ease-out 16.5s forwards;
+            box-shadow: 
+                0 25px 80px rgba(90, 77, 66, 0.12),
+                inset 0 2px 0 rgba(255, 255, 255, 0.9),
+                inset 0 -2px 20px rgba(212, 175, 55, 0.05);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .event-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 20%, rgba(212, 175, 55, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(212, 175, 55, 0.06) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .event-header {
+            text-align: center;
+            margin-bottom: 50px;
+            position: relative;
+        }
+
+        .event-ornament {
+            width: 60px;
+            height: 60px;
+            margin: 0 auto 25px;
+        }
+
+        .event-ornament svg {
+            width: 100%;
+            height: 100%;
+            stroke: #d4af37;
+            fill: none;
+            stroke-width: 1.2;
+            filter: drop-shadow(0 2px 10px rgba(212, 175, 55, 0.3));
+        }
+
+        .event-date {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(38px, 8vw, 52px);
+            font-weight: 400;
+            background: linear-gradient(135deg, #d4af37 0%, #e8c55f 50%, #d4af37 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+            filter: drop-shadow(0 3px 15px rgba(212, 175, 55, 0.25));
+        }
+
+        .event-year {
+            font-family: 'Montserrat', sans-serif;
+            font-size: clamp(13px, 3vw, 15px);
+            letter-spacing: 5px;
+            text-transform: uppercase;
+            color: #a89b8d;
+            font-weight: 300;
+        }
+
+        .event-details {
+            position: relative;
+        }
+
+        .event-item {
+            margin-bottom: 45px;
+            text-align: center;
+            position: relative;
+        }
+
+        .event-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .event-icon {
+            width: 40px;
+            height: 40px;
+            margin: 0 auto 15px;
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.15) 0%, rgba(212, 175, 55, 0.05) 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            border: 1.5px solid rgba(212, 175, 55, 0.3);
+        }
+
+        .event-label {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(26px, 5vw, 32px);
+            color: #6b5d50;
+            margin-bottom: 12px;
+            font-weight: 400;
+            letter-spacing: 1px;
+        }
+
+        .event-text {
+            font-size: clamp(17px, 3.5vw, 20px);
+            color: #8a7b6d;
+            line-height: 1.9;
+            font-weight: 300;
+        }
+
+        .event-time {
+            display: inline-block;
+            margin-top: 8px;
+            padding: 6px 20px;
+            background: rgba(212, 175, 55, 0.1);
+            border-radius: 20px;
+            font-size: clamp(15px, 3vw, 17px);
+            color: #6b5d50;
+            border: 1px solid rgba(212, 175, 55, 0.2);
+        }
+
+        .invitation-text {
+            text-align: center;
+            margin: 80px 0 65px;
+            opacity: 0;
+            animation: fadeInUp 2.5s ease-out 18.5s forwards;
+        }
+
+        .invitation-message {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(21px, 5vw, 28px);
+            line-height: 2;
+            color: #7a6b5d;
+            font-weight: 300;
+            font-style: italic;
+            text-shadow: 0 3px 15px rgba(0, 0, 0, 0.04);
+            margin-bottom: 30px;
+        }
+
+        .invitation-flourish {
+            width: 120px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent 0%, #d4af37 50%, transparent 100%);
+            margin: 35px auto;
+            position: relative;
+        }
+
+        .invitation-flourish::before,
+        .invitation-flourish::after {
+            content: '';
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background: #d4af37;
+            border-radius: 50%;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .invitation-flourish::before { left: -15px; }
+        .invitation-flourish::after { right: -15px; }
+
+        .action-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 22px;
+            margin-top: 65px;
+            opacity: 0;
+            animation: fadeInUp 2.5s ease-out 20.5s forwards;
+        }
+
+        .btn {
+            display: block;
+            padding: 22px 45px;
+            background: 
+                linear-gradient(135deg, rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0.4) 100%);
+            border: 2px solid rgba(212, 175, 55, 0.4);
+            color: #6b5d50;
+            text-decoration: none;
+            border-radius: 50px;
+            font-size: clamp(15px, 3.5vw, 18px);
+            font-weight: 300;
+            letter-spacing: 1px;
+            transition: all 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+            backdrop-filter: blur(20px);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 
+                0 10px 40px rgba(212, 175, 55, 0.15),
+                inset 0 2px 0 rgba(255, 255, 255, 0.7);
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(212, 175, 55, 0.2) 0%, transparent 70%);
+            transform: translate(-50%, -50%);
+            transition: width 0.7s, height 0.7s;
+        }
+
+        .btn::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.7s;
+        }
+
+        .btn:hover::after {
+            left: 100%;
+        }
+
+        .btn:active::before {
+            width: 400px;
+            height: 400px;
+        }
+
+        .btn:active {
+            transform: scale(0.96);
+        }
+
+        .btn-location {
+            background: 
+                linear-gradient(135deg, rgba(212, 175, 55
+
